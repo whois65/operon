@@ -1,1122 +1,1172 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Operon — Business Management</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link
-            href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap"
-            rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-        <link rel="stylesheet" href="style.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>OPERON</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg: #0E1116;
+            --panel: #161B22;
+            --panel-2: #1C232E;
+            --border: #262D38;
+            --text-hi: #E7EBF0;
+            --text-mu: #7C8798;
+            --amber: #F0A94E;
+            --teal: #4FD9C0;
+            --coral: #EF6B5C;
+            --sky: #5FA8D3;
+            --violet: #9B8AE6;
+        }
 
-    <body> <!-- SIDEBAR -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-logo">
-                <div class="logo-mark">OR</div>
-                <div>
-                    <div class="logo-text">Operon</div>
-                    <div class="logo-sub">Business Suite</div>
-                </div>
-            </div>
-            <nav class="sidebar-nav">
-                <div class="nav-section-label">Overview</div>
-                <div class="nav-item active" onclick="nav('dashboard',this)"> <svg class="nav-icon" fill="none"
-                        stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                        <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                        <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                        <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                    </svg> Dashboard </div>
-                <div class="nav-section-label">Business</div>
-                <div class="nav-item" onclick="nav('customers',this)"> <svg class="nav-icon" fill="none"
-                        stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                        <circle cx="9" cy="7" r="4" />
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg> Customers <span class="nav-badge">248</span> </div>
-                <div class="nav-item" onclick="nav('inventory',this)"> <svg class="nav-icon" fill="none"
-                        stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                        <path
-                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                        <line x1="12" y1="22.08" x2="12" y2="12" />
-                    </svg> Inventory <span class="nav-badge amber">5</span> </div>
-                <div class="nav-item" onclick="nav('invoices',this)"> <svg class="nav-icon" fill="none"
-                        stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                        <polyline points="14 2 14 8 20 8" />
-                        <line x1="16" y1="13" x2="8" y2="13" />
-                        <line x1="16" y1="17" x2="8" y2="17" />
-                        <polyline points="10 9 9 9 8 9" />
-                    </svg> Invoices <span class="nav-badge red">3</span> </div>
-                <div class="nav-section-label">Operations</div>
-                <div class="nav-item" onclick="nav('projects',this)"> <svg class="nav-icon" fill="none"
-                        stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="18" height="18" rx="2" />
-                        <line x1="9" y1="9" x2="15" y2="9" />
-                        <line x1="9" y1="13" x2="15" y2="13" />
-                        <line x1="9" y1="17" x2="12" y2="17" />
-                    </svg> Projects </div>
-                <div class="nav-item" onclick="nav('employees',this)"> <svg class="nav-icon" fill="none"
-                        stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                        <circle cx="12" cy="7" r="4" />
-                    </svg> Employees </div>
-                <div class="nav-item" onclick="nav('collabs',this)"> <svg class="nav-icon" fill="none"
-                        stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                        <circle cx="18" cy="5" r="3" />
-                        <circle cx="6" cy="12" r="3" />
-                        <circle cx="18" cy="19" r="3" />
-                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                    </svg> Collaborations </div>
-            </nav>
-            <div class="sidebar-footer">
-                <div class="user-card">
-                    <div class="user-avatar">AJ</div>
-                    <div>
-                        <div class="user-name">Alex Johnson</div>
-                        <div class="user-role">Administrator</div>
-                    </div>
-                </div>
-            </div>
-        </aside> <!-- MAIN -->
-        <div class="main"> <!-- TOPBAR -->
-            <div class="topbar"> <button class="menu-toggle"
-                    onclick="document.getElementById('sidebar').classList.toggle('open')"> <svg width="16" height="16"
-                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <line x1="3" y1="6" x2="21" y2="6" />
-                        <line x1="3" y1="12" x2="21" y2="12" />
-                        <line x1="3" y1="18" x2="21" y2="18" />
-                    </svg> </button>
-                <div class="topbar-title" id="topbar-title">Dashboard</div>
-                <div class="topbar-search"> <svg width="14" height="14" fill="none" stroke="currentColor"
-                        stroke-width="2" viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                    </svg> <input type="text" placeholder="Search anything…"> </div>
-                <div class="topbar-actions"> <button class="tbtn" onclick="toast('No new notifications','success')">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                        </svg> <span class="tbtn-dot"></span> </button> <button class="tbtn"
-                        onclick="toast('Settings coming soon')"> <svg width="14" height="14" fill="none"
-                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="3" />
-                            <path
-                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                        </svg> </button> </div>
-            </div> <!-- ══ DASHBOARD ══ -->
-            <div class="page active" id="page-dashboard">
-                <div class="page-header">
-                    <div>
-                        <div class="page-title">Good morning, Alex 👋</div>
-                        <div class="page-sub">Here's what's happening with your business today.</div>
-                    </div> <button class="btn btn-primary" onclick="toast('Report exported!','success')"> <svg
-                            width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                            <polyline points="7 10 12 15 17 10" />
-                            <line x1="12" y1="15" x2="12" y2="3" />
-                        </svg> Export Report </button>
-                </div>
-                <div class="kpi-grid">
-                    <div class="kpi-card green">
-                        <div class="kpi-label">Total Revenue</div>
-                        <div class="kpi-value">$284,520</div>
-                        <div class="kpi-change up">↑ 12.4% from last month</div>
-                        <div class="kpi-icon" style="background:rgba(0,212,170,0.1);color:var(--acc)">💰</div>
-                    </div>
-                    <div class="kpi-card blue">
-                        <div class="kpi-label">Active Customers</div>
-                        <div class="kpi-value">1,842</div>
-                        <div class="kpi-change up">↑ 8.1% new this month</div>
-                        <div class="kpi-icon" style="background:var(--blue-s);color:var(--blue)">👥</div>
-                    </div>
-                    <div class="kpi-card amber">
-                        <div class="kpi-label">Open Projects</div>
-                        <div class="kpi-value">34</div>
-                        <div class="kpi-change neutral">→ 6 due this week</div>
-                        <div class="kpi-icon" style="background:var(--amber-s);color:var(--amber)">📋</div>
-                    </div>
-                    <div class="kpi-card rose">
-                        <div class="kpi-label">Pending Invoices</div>
-                        <div class="kpi-value">$42,180</div>
-                        <div class="kpi-change down">↓ 3 overdue</div>
-                        <div class="kpi-icon" style="background:var(--rose-s);color:var(--rose)">⚠️</div>
-                    </div>
-                    <div class="kpi-card violet">
-                        <div class="kpi-label">Employees</div>
-                        <div class="kpi-value">127</div>
-                        <div class="kpi-change up">↑ 4 hired this month</div>
-                        <div class="kpi-icon" style="background:var(--violet-s);color:var(--violet)">🏢</div>
-                    </div>
-                    <div class="kpi-card cyan">
-                        <div class="kpi-label">Partnerships</div>
-                        <div class="kpi-value">18</div>
-                        <div class="kpi-change up">↑ 2 new this quarter</div>
-                        <div class="kpi-icon" style="background:var(--cyan-s);color:var(--cyan)">🤝</div>
-                    </div>
-                </div>
-                <div class="grid-3-1" style="margin-bottom:16px">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="section-title">Revenue Overview — 2024</div>
-                            <div class="chart-box"><canvas id="revenueChart"></canvas></div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="section-title">Revenue by Category</div>
-                            <div style="height:160px;position:relative"><canvas id="donutChart"></canvas></div>
-                            <div class="legend-list" style="margin-top:12px">
-                                <div class="legend-item">
-                                    <div class="legend-dot" style="background:var(--acc)"></div><span
-                                        class="legend-label">Products</span><span class="legend-val">48%</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-dot" style="background:var(--blue)"></div><span
-                                        class="legend-label">Services</span><span class="legend-val">31%</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-dot" style="background:var(--amber)"></div><span
-                                        class="legend-label">Licensing</span><span class="legend-val">14%</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-dot" style="background:var(--violet)"></div><span
-                                        class="legend-label">Other</span><span class="legend-val">7%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="section-title">Recent Activity</div>
-                            <div class="timeline">
-                                <div class="tl-item">
-                                    <div class="tl-dot av-green">✓</div>
-                                    <div class="tl-content">
-                                        <div class="tl-title">Invoice #INV-2841 paid by Acme Corp</div>
-                                        <div class="tl-time">2 hours ago · $12,400</div>
-                                    </div>
-                                </div>
-                                <div class="tl-item">
-                                    <div class="tl-dot av-blue">+</div>
-                                    <div class="tl-content">
-                                        <div class="tl-title">New customer: TechStart Inc. onboarded</div>
-                                        <div class="tl-time">4 hours ago</div>
-                                    </div>
-                                </div>
-                                <div class="tl-item">
-                                    <div class="tl-dot av-amber">!</div>
-                                    <div class="tl-content">
-                                        <div class="tl-title">Low stock alert: Wireless Keyboard (8 left)</div>
-                                        <div class="tl-time">6 hours ago</div>
-                                    </div>
-                                </div>
-                                <div class="tl-item">
-                                    <div class="tl-dot av-violet">★</div>
-                                    <div class="tl-content">
-                                        <div class="tl-title">Project "Website Redesign" marked complete</div>
-                                        <div class="tl-time">Yesterday, 3:45 PM</div>
-                                    </div>
-                                </div>
-                                <div class="tl-item">
-                                    <div class="tl-dot av-cyan">↗</div>
-                                    <div class="tl-content">
-                                        <div class="tl-title">Partnership agreement signed: CloudBase Ltd</div>
-                                        <div class="tl-time">Yesterday, 10:12 AM</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="section-title">Top Customers</div>
-                            <div style="display:flex;flex-direction:column;gap:12px">
-                                <div style="display:flex;align-items:center;gap:10px">
-                                    <div class="avatar av-blue">AC</div>
-                                    <div style="flex:1">
-                                        <div style="font-size:13px;font-weight:600;color:var(--tx1)">Acme Corporation
-                                        </div>
-                                        <div class="prog-bar">
-                                            <div class="prog-fill" style="width:88%;background:var(--blue)"></div>
-                                        </div>
-                                    </div>
-                                    <div style="font-size:12px;font-weight:600;color:var(--tx1);font-family:var(--fm)">
-                                        $62k</div>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:10px">
-                                    <div class="avatar av-green">GG</div>
-                                    <div style="flex:1">
-                                        <div style="font-size:13px;font-weight:600;color:var(--tx1)">GreenGrow Ltd</div>
-                                        <div class="prog-bar">
-                                            <div class="prog-fill" style="width:74%;background:var(--acc)"></div>
-                                        </div>
-                                    </div>
-                                    <div style="font-size:12px;font-weight:600;color:var(--tx1);font-family:var(--fm)">
-                                        $48k</div>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:10px">
-                                    <div class="avatar av-amber">TS</div>
-                                    <div style="flex:1">
-                                        <div style="font-size:13px;font-weight:600;color:var(--tx1)">TechStart Inc.
-                                        </div>
-                                        <div class="prog-bar">
-                                            <div class="prog-fill" style="width:60%;background:var(--amber)"></div>
-                                        </div>
-                                    </div>
-                                    <div style="font-size:12px;font-weight:600;color:var(--tx1);font-family:var(--fm)">
-                                        $38k</div>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:10px">
-                                    <div class="avatar av-rose">NV</div>
-                                    <div style="flex:1">
-                                        <div style="font-size:13px;font-weight:600;color:var(--tx1)">NovaTech Ventures
-                                        </div>
-                                        <div class="prog-bar">
-                                            <div class="prog-fill" style="width:44%;background:var(--rose)"></div>
-                                        </div>
-                                    </div>
-                                    <div style="font-size:12px;font-weight:600;color:var(--tx1);font-family:var(--fm)">
-                                        $28k</div>
-                                </div>
-                                <div style="display:flex;align-items:center;gap:10px">
-                                    <div class="avatar av-violet">BR</div>
-                                    <div style="flex:1">
-                                        <div style="font-size:13px;font-weight:600;color:var(--tx1)">BlueRidge Partners
-                                        </div>
-                                        <div class="prog-bar">
-                                            <div class="prog-fill" style="width:32%;background:var(--violet)"></div>
-                                        </div>
-                                    </div>
-                                    <div style="font-size:12px;font-weight:600;color:var(--tx1);font-family:var(--fm)">
-                                        $20k</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- ══ CUSTOMERS ══ -->
-            <div class="page" id="page-customers">
-                <div class="page-header">
-                    <div>
-                        <div class="page-title">Customers</div>
-                        <div class="page-sub">248 total contacts · 192 active</div>
-                    </div> <button class="btn btn-primary" onclick="openModal('cust-modal')">+ Add Customer</button>
-                </div>
-                <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-                    <div class="kpi-card blue">
-                        <div class="kpi-label">Total</div>
-                        <div class="kpi-value">248</div>
-                        <div class="kpi-change up">↑ 14 this month</div>
-                    </div>
-                    <div class="kpi-card green">
-                        <div class="kpi-label">Active</div>
-                        <div class="kpi-value">192</div>
-                        <div class="kpi-change neutral">→ 77%</div>
-                    </div>
-                    <div class="kpi-card amber">
-                        <div class="kpi-label">Leads</div>
-                        <div class="kpi-value">34</div>
-                        <div class="kpi-change up">↑ 8 new</div>
-                    </div>
-                    <div class="kpi-card rose">
-                        <div class="kpi-label">Churned</div>
-                        <div class="kpi-value">22</div>
-                        <div class="kpi-change down">↓ 3 this month</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body" style="padding-bottom:0">
-                        <div
-                            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-                            <div class="section-title" style="margin-bottom:0">All Customers</div>
-                            <div style="display:flex;gap:6px;flex-wrap:wrap"> <select class="form-input form-select"
-                                    style="width:auto;padding:6px 28px 6px 10px;font-size:12px">
-                                    <option>All Status</option>
-                                    <option>Active</option>
-                                    <option>Lead</option>
-                                    <option>Inactive</option>
-                                </select> <select class="form-input form-select"
-                                    style="width:auto;padding:6px 28px 6px 10px;font-size:12px">
-                                    <option>All Segments</option>
-                                    <option>Enterprise</option>
-                                    <option>SMB</option>
-                                    <option>Startup</option>
-                                </select> </div>
-                        </div>
-                    </div>
-                    <div class="table-wrap" style="border:none;border-radius:0 0 var(--r-lg) var(--r-lg)">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Customer</th>
-                                    <th>Email</th>
-                                    <th>Segment</th>
-                                    <th>Status</th>
-                                    <th>Revenue</th>
-                                    <th>Last Contact</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="customers-tbody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div> <!-- ══ INVENTORY ══ -->
-            <div class="page" id="page-inventory">
-                <div class="page-header">
-                    <div>
-                        <div class="page-title">Inventory</div>
-                        <div class="page-sub">124 products · 5 low stock alerts</div>
-                    </div> <button class="btn btn-primary" onclick="openModal('prod-modal')">+ Add Product</button>
-                </div>
-                <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-                    <div class="kpi-card blue">
-                        <div class="kpi-label">Products</div>
-                        <div class="kpi-value">124</div>
-                        <div class="kpi-change neutral">→ 8 categories</div>
-                    </div>
-                    <div class="kpi-card green">
-                        <div class="kpi-label">In Stock</div>
-                        <div class="kpi-value">4,820</div>
-                        <div class="kpi-change up">↑ units</div>
-                    </div>
-                    <div class="kpi-card amber">
-                        <div class="kpi-label">Low Stock</div>
-                        <div class="kpi-value">5</div>
-                        <div class="kpi-change down">↓ reorder needed</div>
-                    </div>
-                    <div class="kpi-card rose">
-                        <div class="kpi-label">Out of Stock</div>
-                        <div class="kpi-value">3</div>
-                        <div class="kpi-change down">↓ critical</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body" style="padding-bottom:0">
-                        <div
-                            style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-                            <div class="section-title" style="margin-bottom:0">Products</div> <select
-                                class="form-input form-select"
-                                style="width:auto;padding:6px 28px 6px 10px;font-size:12px">
-                                <option>All Categories</option>
-                                <option>Electronics</option>
-                                <option>Software</option>
-                                <option>Hardware</option>
-                                <option>Accessories</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="table-wrap" style="border:none;border-radius:0 0 var(--r-lg) var(--r-lg)">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>SKU</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="inventory-tbody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div> <!-- ══ INVOICES ══ -->
-            <div class="page" id="page-invoices">
-                <div class="page-header">
-                    <div>
-                        <div class="page-title">Invoices & Finance</div>
-                        <div class="page-sub">Track payments, billing, and cash flow</div>
-                    </div> <button class="btn btn-primary" onclick="openModal('inv-modal')">+ New Invoice</button>
-                </div>
-                <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-                    <div class="kpi-card green">
-                        <div class="kpi-label">Collected</div>
-                        <div class="kpi-value">$242k</div>
-                        <div class="kpi-change up">↑ this month</div>
-                    </div>
-                    <div class="kpi-card amber">
-                        <div class="kpi-label">Pending</div>
-                        <div class="kpi-value">$42k</div>
-                        <div class="kpi-change neutral">→ 12 invoices</div>
-                    </div>
-                    <div class="kpi-card rose">
-                        <div class="kpi-label">Overdue</div>
-                        <div class="kpi-value">$8,400</div>
-                        <div class="kpi-change down">↓ 3 invoices</div>
-                    </div>
-                    <div class="kpi-card blue">
-                        <div class="kpi-label">This Quarter</div>
-                        <div class="kpi-value">$712k</div>
-                        <div class="kpi-change up">↑ 18% YoY</div>
-                    </div>
-                </div>
-                <div class="grid-3-1">
-                    <div class="card">
-                        <div class="card-body" style="padding-bottom:0">
-                            <div class="section-title">All Invoices</div>
-                            <div class="table-wrap" style="border:none;margin-bottom:16px">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Invoice</th>
-                                            <th>Customer</th>
-                                            <th>Amount</th>
-                                            <th>Date</th>
-                                            <th>Due</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="invoices-tbody"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="section-title">Payment Pipeline</div>
-                            <div class="pipeline" style="grid-template-columns:1fr;gap:6px">
-                                <div
-                                    style="background:var(--acc-s);border:1px solid rgba(0,212,170,0.2);border-radius:var(--r);padding:12px;cursor:pointer">
-                                    <div
-                                        style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--acc);margin-bottom:4px">
-                                        Paid</div>
-                                    <div style="font-family:var(--fm);font-size:16px;font-weight:600;color:var(--tx1)">
-                                        $242,100</div>
-                                    <div style="font-size:11px;color:var(--tx2);margin-top:2px">38 invoices</div>
-                                </div>
-                                <div
-                                    style="background:var(--amber-s);border:1px solid rgba(240,160,48,0.2);border-radius:var(--r);padding:12px;cursor:pointer">
-                                    <div
-                                        style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--amber);margin-bottom:4px">
-                                        Pending</div>
-                                    <div style="font-family:var(--fm);font-size:16px;font-weight:600;color:var(--tx1)">
-                                        $42,180</div>
-                                    <div style="font-size:11px;color:var(--tx2);margin-top:2px">12 invoices</div>
-                                </div>
-                                <div
-                                    style="background:var(--rose-s);border:1px solid rgba(240,80,96,0.2);border-radius:var(--r);padding:12px;cursor:pointer">
-                                    <div
-                                        style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--rose);margin-bottom:4px">
-                                        Overdue</div>
-                                    <div style="font-family:var(--fm);font-size:16px;font-weight:600;color:var(--tx1)">
-                                        $8,420</div>
-                                    <div style="font-size:11px;color:var(--tx2);margin-top:2px">3 invoices</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- ══ PROJECTS ══ -->
-            <div class="page" id="page-projects">
-                <div class="page-header">
-                    <div>
-                        <div class="page-title">Projects & Tasks</div>
-                        <div class="page-sub">34 active · 6 due this week</div>
-                    </div> <button class="btn btn-primary" onclick="openModal('proj-modal')">+ New Project</button>
-                </div>
-                <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-                    <div class="kpi-card blue">
-                        <div class="kpi-label">Active</div>
-                        <div class="kpi-value">34</div>
-                        <div class="kpi-change neutral">→ ongoing</div>
-                    </div>
-                    <div class="kpi-card amber">
-                        <div class="kpi-label">In Review</div>
-                        <div class="kpi-value">8</div>
-                        <div class="kpi-change neutral">→ awaiting</div>
-                    </div>
-                    <div class="kpi-card green">
-                        <div class="kpi-label">Completed</div>
-                        <div class="kpi-value">142</div>
-                        <div class="kpi-change up">↑ this year</div>
-                    </div>
-                    <div class="kpi-card rose">
-                        <div class="kpi-label">Overdue</div>
-                        <div class="kpi-value">3</div>
-                        <div class="kpi-change down">↓ action needed</div>
-                    </div>
-                </div>
-                <div style="margin-bottom:16px">
-                    <div class="section-title">Project Pipeline</div>
-                    <div class="pipeline">
-                        <div class="pipe-col">
-                            <div class="pipe-col-head">Backlog <span class="badge badge-gray">4</span></div>
-                            <div class="pipe-item">
-                                <div class="pipe-item-name">CRM Integration</div>
-                                <div class="pipe-item-val">$18,000</div>
-                                <div class="pipe-item-meta">TechStart Inc. · Q1 2025</div>
-                            </div>
-                            <div class="pipe-item">
-                                <div class="pipe-item-name">Mobile App MVP</div>
-                                <div class="pipe-item-val">$45,000</div>
-                                <div class="pipe-item-meta">GreenGrow Ltd · Q2 2025</div>
-                            </div>
-                        </div>
-                        <div class="pipe-col">
-                            <div class="pipe-col-head">In Progress <span class="badge badge-blue">8</span></div>
-                            <div class="pipe-item">
-                                <div class="pipe-item-name">Website Redesign</div>
-                                <div class="pipe-item-val">$12,400</div>
-                                <div class="pipe-item-meta">Acme Corp · 68% done</div>
-                            </div>
-                            <div class="pipe-item">
-                                <div class="pipe-item-name">Data Migration</div>
-                                <div class="pipe-item-val">$9,800</div>
-                                <div class="pipe-item-meta">NovaTech · 45% done</div>
-                            </div>
-                            <div class="pipe-item">
-                                <div class="pipe-item-name">SEO Audit & Fix</div>
-                                <div class="pipe-item-val">$5,200</div>
-                                <div class="pipe-item-meta">BlueRidge · 30% done</div>
-                            </div>
-                        </div>
-                        <div class="pipe-col">
-                            <div class="pipe-col-head">In Review <span class="badge badge-amber">3</span></div>
-                            <div class="pipe-item">
-                                <div class="pipe-item-name">Analytics Dashboard</div>
-                                <div class="pipe-item-val">$22,000</div>
-                                <div class="pipe-item-meta">TechStart · Awaiting QA</div>
-                            </div>
-                            <div class="pipe-item">
-                                <div class="pipe-item-name">API Development</div>
-                                <div class="pipe-item-val">$16,500</div>
-                                <div class="pipe-item-meta">Acme Corp · Awaiting sign-off</div>
-                            </div>
-                        </div>
-                        <div class="pipe-col">
-                            <div class="pipe-col-head">Done <span class="badge badge-green">5</span></div>
-                            <div class="pipe-item">
-                                <div class="pipe-item-name">Brand Identity</div>
-                                <div class="pipe-item-val">$8,000</div>
-                                <div class="pipe-item-meta">NovaTech · ✓ Delivered</div>
-                            </div>
-                            <div class="pipe-item">
-                                <div class="pipe-item-name">Email Campaigns</div>
-                                <div class="pipe-item-val">$3,600</div>
-                                <div class="pipe-item-meta">GreenGrow · ✓ Delivered</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body" style="padding-bottom:0">
-                        <div class="section-title">All Projects</div>
-                        <div class="table-wrap" style="border:none;margin-bottom:16px">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Project</th>
-                                        <th>Client</th>
-                                        <th>Team</th>
-                                        <th>Budget</th>
-                                        <th>Progress</th>
-                                        <th>Due Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="projects-tbody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- ══ EMPLOYEES ══ -->
-            <div class="page" id="page-employees">
-                <div class="page-header">
-                    <div>
-                        <div class="page-title">Employees & HR</div>
-                        <div class="page-sub">127 staff members across 8 departments</div>
-                    </div> <button class="btn btn-primary" onclick="openModal('emp-modal')">+ Add Employee</button>
-                </div>
-                <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-                    <div class="kpi-card blue">
-                        <div class="kpi-label">Total Staff</div>
-                        <div class="kpi-value">127</div>
-                        <div class="kpi-change up">↑ 4 hired</div>
-                    </div>
-                    <div class="kpi-card green">
-                        <div class="kpi-label">Full-time</div>
-                        <div class="kpi-value">98</div>
-                        <div class="kpi-change neutral">→ 77%</div>
-                    </div>
-                    <div class="kpi-card amber">
-                        <div class="kpi-label">Part-time</div>
-                        <div class="kpi-value">22</div>
-                        <div class="kpi-change neutral">→ 17%</div>
-                    </div>
-                    <div class="kpi-card violet">
-                        <div class="kpi-label">Contractors</div>
-                        <div class="kpi-value">7</div>
-                        <div class="kpi-change neutral">→ 6%</div>
-                    </div>
-                </div>
-                <div class="grid-3-1" style="margin-bottom:16px">
-                    <div class="card">
-                        <div class="card-body" style="padding-bottom:0">
-                            <div class="section-title">Employee Directory</div>
-                            <div class="table-wrap" style="border:none;margin-bottom:16px">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Employee</th>
-                                            <th>Department</th>
-                                            <th>Role</th>
-                                            <th>Type</th>
-                                            <th>Start Date</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="employees-tbody"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="section-title">Departments</div>
-                            <div style="display:flex;flex-direction:column;gap:10px">
-                                <div style="display:flex;align-items:center;justify-content:space-between">
-                                    <div style="font-size:12px;color:var(--tx2)">Engineering</div>
-                                    <div style="display:flex;align-items:center;gap:8px">
-                                        <div
-                                            style="width:80px;height:4px;background:var(--surface3);border-radius:99px;overflow:hidden">
-                                            <div
-                                                style="width:70%;height:100%;background:var(--blue);border-radius:99px">
-                                            </div>
-                                        </div>
-                                        <div style="font-size:12px;font-family:var(--fm);color:var(--tx1)">38</div>
-                                    </div>
-                                </div>
-                                <div style="display:flex;align-items:center;justify-content:space-between">
-                                    <div style="font-size:12px;color:var(--tx2)">Sales</div>
-                                    <div style="display:flex;align-items:center;gap:8px">
-                                        <div
-                                            style="width:80px;height:4px;background:var(--surface3);border-radius:99px;overflow:hidden">
-                                            <div style="width:48%;height:100%;background:var(--acc);border-radius:99px">
-                                            </div>
-                                        </div>
-                                        <div style="font-size:12px;font-family:var(--fm);color:var(--tx1)">22</div>
-                                    </div>
-                                </div>
-                                <div style="display:flex;align-items:center;justify-content:space-between">
-                                    <div style="font-size:12px;color:var(--tx2)">Marketing</div>
-                                    <div style="display:flex;align-items:center;gap:8px">
-                                        <div
-                                            style="width:80px;height:4px;background:var(--surface3);border-radius:99px;overflow:hidden">
-                                            <div
-                                                style="width:34%;height:100%;background:var(--amber);border-radius:99px">
-                                            </div>
-                                        </div>
-                                        <div style="font-size:12px;font-family:var(--fm);color:var(--tx1)">18</div>
-                                    </div>
-                                </div>
-                                <div style="display:flex;align-items:center;justify-content:space-between">
-                                    <div style="font-size:12px;color:var(--tx2)">Operations</div>
-                                    <div style="display:flex;align-items:center;gap:8px">
-                                        <div
-                                            style="width:80px;height:4px;background:var(--surface3);border-radius:99px;overflow:hidden">
-                                            <div
-                                                style="width:28%;height:100%;background:var(--violet);border-radius:99px">
-                                            </div>
-                                        </div>
-                                        <div style="font-size:12px;font-family:var(--fm);color:var(--tx1)">16</div>
-                                    </div>
-                                </div>
-                                <div style="display:flex;align-items:center;justify-content:space-between">
-                                    <div style="font-size:12px;color:var(--tx2)">Finance</div>
-                                    <div style="display:flex;align-items:center;gap:8px">
-                                        <div
-                                            style="width:80px;height:4px;background:var(--surface3);border-radius:99px;overflow:hidden">
-                                            <div
-                                                style="width:18%;height:100%;background:var(--rose);border-radius:99px">
-                                            </div>
-                                        </div>
-                                        <div style="font-size:12px;font-family:var(--fm);color:var(--tx1)">10</div>
-                                    </div>
-                                </div>
-                                <div style="display:flex;align-items:center;justify-content:space-between">
-                                    <div style="font-size:12px;color:var(--tx2)">Design</div>
-                                    <div style="display:flex;align-items:center;gap:8px">
-                                        <div
-                                            style="width:80px;height:4px;background:var(--surface3);border-radius:99px;overflow:hidden">
-                                            <div
-                                                style="width:16%;height:100%;background:var(--cyan);border-radius:99px">
-                                            </div>
-                                        </div>
-                                        <div style="font-size:12px;font-family:var(--fm);color:var(--tx1)">9</div>
-                                    </div>
-                                </div>
-                                <div style="display:flex;align-items:center;justify-content:space-between">
-                                    <div style="font-size:12px;color:var(--tx2)">HR & Admin</div>
-                                    <div style="display:flex;align-items:center;gap:8px">
-                                        <div
-                                            style="width:80px;height:4px;background:var(--surface3);border-radius:99px;overflow:hidden">
-                                            <div style="width:14%;height:100%;background:var(--tx3);border-radius:99px">
-                                            </div>
-                                        </div>
-                                        <div style="font-size:12px;font-family:var(--fm);color:var(--tx1)">8</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="divider"></div>
-                            <div style="font-size:12px;color:var(--tx3);text-align:center">Monthly payroll: <span
-                                    style="color:var(--tx1);font-family:var(--fm);font-weight:600">$618,400</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- ══ COLLABS ══ -->
-            <div class="page" id="page-collabs">
-                <div class="page-header">
-                    <div>
-                        <div class="page-title">Cooperations & Collaborations</div>
-                        <div class="page-sub">18 active partnerships · 4 in negotiation</div>
-                    </div> <button class="btn btn-primary" onclick="openModal('collab-modal')">+ New
-                        Partnership</button>
-                </div>
-                <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-                    <div class="kpi-card cyan">
-                        <div class="kpi-label">Active</div>
-                        <div class="kpi-value">18</div>
-                        <div class="kpi-change up">↑ 2 new</div>
-                    </div>
-                    <div class="kpi-card amber">
-                        <div class="kpi-label">Negotiating</div>
-                        <div class="kpi-value">4</div>
-                        <div class="kpi-change neutral">→ in progress</div>
-                    </div>
-                    <div class="kpi-card violet">
-                        <div class="kpi-label">Proposals</div>
-                        <div class="kpi-value">7</div>
-                        <div class="kpi-change up">↑ 3 sent</div>
-                    </div>
-                    <div class="kpi-card green">
-                        <div class="kpi-label">Joint Revenue</div>
-                        <div class="kpi-value">$84k</div>
-                        <div class="kpi-change up">↑ this quarter</div>
-                    </div>
-                </div>
-                <div class="grid-3" id="collabs-grid" style="margin-bottom:22px"></div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="section-title">Collaboration Pipeline</div>
-                        <div class="pipeline">
-                            <div class="pipe-col">
-                                <div class="pipe-col-head">Prospect <span class="badge badge-gray">3</span></div>
-                                <div class="pipe-item">
-                                    <div class="pipe-item-name">DataSphere AI</div>
-                                    <div class="pipe-item-val">Tech Partnership</div>
-                                    <div class="pipe-item-meta">Outreach sent</div>
-                                </div>
-                                <div class="pipe-item">
-                                    <div class="pipe-item-name">FinBridge Corp</div>
-                                    <div class="pipe-item-val">Finance Integration</div>
-                                    <div class="pipe-item-meta">Meeting scheduled</div>
-                                </div>
-                            </div>
-                            <div class="pipe-col">
-                                <div class="pipe-col-head">Negotiating <span class="badge badge-amber">4</span></div>
-                                <div class="pipe-item">
-                                    <div class="pipe-item-name">LogiTrack Ltd</div>
-                                    <div class="pipe-item-val">Logistics Partner</div>
-                                    <div class="pipe-item-meta">Contract review</div>
-                                </div>
-                                <div class="pipe-item">
-                                    <div class="pipe-item-name">MediaPulse</div>
-                                    <div class="pipe-item-val">Marketing Co-op</div>
-                                    <div class="pipe-item-meta">Terms negotiation</div>
-                                </div>
-                            </div>
-                            <div class="pipe-col">
-                                <div class="pipe-col-head">Active <span class="badge badge-green">8</span></div>
-                                <div class="pipe-item">
-                                    <div class="pipe-item-name">CloudBase Ltd</div>
-                                    <div class="pipe-item-val">$22,000 / yr</div>
-                                    <div class="pipe-item-meta">Infrastructure · Signed Jan 2024</div>
-                                </div>
-                                <div class="pipe-item">
-                                    <div class="pipe-item-name">Apex Distribution</div>
-                                    <div class="pipe-item-val">$18,500 / yr</div>
-                                    <div class="pipe-item-meta">Sales Channel · Signed Mar 2024</div>
-                                </div>
-                            </div>
-                            <div class="pipe-col">
-                                <div class="pipe-col-head">Renewal <span class="badge badge-blue">3</span></div>
-                                <div class="pipe-item">
-                                    <div class="pipe-item-name">TalentBridge</div>
-                                    <div class="pipe-item-val">HR Outsource</div>
-                                    <div class="pipe-item-meta">Renews Feb 2025</div>
-                                </div>
-                                <div class="pipe-item">
-                                    <div class="pipe-item-name">ProcureNet</div>
-                                    <div class="pipe-item-val">Supply Chain</div>
-                                    <div class="pipe-item-meta">Renews Apr 2025</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><!-- /main --> <!-- MODALS -->
-        <div class="modal-bg" id="cust-modal" onclick="closeModals(event)">
-            <div class="modal" onclick="event.stopPropagation()">
-                <div class="modal-head">
-                    <div class="modal-title">Add New Customer</div><button class="close-btn"
-                        onclick="closeModal('cust-modal')">✕</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Company Name</label><input class="form-input"
-                                placeholder="e.g. Acme Corporation"></div>
-                        <div class="form-group"><label class="form-label">Contact Person</label><input
-                                class="form-input" placeholder="Full name"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Email</label><input class="form-input"
-                                type="email" placeholder="email@company.com"></div>
-                        <div class="form-group"><label class="form-label">Phone</label><input class="form-input"
-                                placeholder="+1 (555) 000-0000"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Segment</label><select
-                                class="form-input form-select">
-                                <option>Enterprise</option>
-                                <option>SMB</option>
-                                <option>Startup</option>
-                            </select></div>
-                        <div class="form-group"><label class="form-label">Status</label><select
-                                class="form-input form-select">
-                                <option>Lead</option>
-                                <option>Active</option>
-                                <option>Inactive</option>
-                            </select></div>
-                    </div>
-                    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-input" rows="2"
-                            placeholder="Any additional notes…" style="resize:none"></textarea></div>
-                </div>
-                <div class="modal-footer"><button class="btn btn-ghost"
-                        onclick="closeModal('cust-modal')">Cancel</button><button class="btn btn-primary"
-                        onclick="addCustomer()">Add Customer</button></div>
-            </div>
-        </div>
-        <div class="modal-bg" id="prod-modal" onclick="closeModals(event)">
-            <div class="modal" onclick="event.stopPropagation()">
-                <div class="modal-head">
-                    <div class="modal-title">Add Product</div><button class="close-btn"
-                        onclick="closeModal('prod-modal')">✕</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Product Name</label><input class="form-input"
-                                placeholder="e.g. Wireless Keyboard"></div>
-                        <div class="form-group"><label class="form-label">SKU</label><input class="form-input"
-                                placeholder="e.g. WK-001"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Category</label><select
-                                class="form-input form-select">
-                                <option>Electronics</option>
-                                <option>Software</option>
-                                <option>Hardware</option>
-                                <option>Accessories</option>
-                            </select></div>
-                        <div class="form-group"><label class="form-label">Price ($)</label><input class="form-input"
-                                type="number" placeholder="0.00"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Stock Qty</label><input class="form-input"
-                                type="number" placeholder="0"></div>
-                        <div class="form-group"><label class="form-label">Reorder Level</label><input class="form-input"
-                                type="number" placeholder="10"></div>
-                    </div>
-                </div>
-                <div class="modal-footer"><button class="btn btn-ghost"
-                        onclick="closeModal('prod-modal')">Cancel</button><button class="btn btn-primary"
-                        onclick="addProduct()">Add Product</button></div>
-            </div>
-        </div>
-        <div class="modal-bg" id="inv-modal" onclick="closeModals(event)">
-            <div class="modal" onclick="event.stopPropagation()">
-                <div class="modal-head">
-                    <div class="modal-title">New Invoice</div><button class="close-btn"
-                        onclick="closeModal('inv-modal')">✕</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Customer</label><select
-                                class="form-input form-select">
-                                <option>Acme Corporation</option>
-                                <option>GreenGrow Ltd</option>
-                                <option>TechStart Inc.</option>
-                                <option>NovaTech Ventures</option>
-                            </select></div>
-                        <div class="form-group"><label class="form-label">Amount ($)</label><input class="form-input"
-                                type="number" placeholder="0.00"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Issue Date</label><input class="form-input"
-                                type="date"></div>
-                        <div class="form-group"><label class="form-label">Due Date</label><input class="form-input"
-                                type="date"></div>
-                    </div>
-                    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input"
-                            rows="2" placeholder="Services or products billed…" style="resize:none"></textarea></div>
-                </div>
-                <div class="modal-footer"><button class="btn btn-ghost"
-                        onclick="closeModal('inv-modal')">Cancel</button><button class="btn btn-primary"
-                        onclick="addInvoice()">Create Invoice</button></div>
-            </div>
-        </div>
-        <div class="modal-bg" id="proj-modal" onclick="closeModals(event)">
-            <div class="modal" onclick="event.stopPropagation()">
-                <div class="modal-head">
-                    <div class="modal-title">New Project</div><button class="close-btn"
-                        onclick="closeModal('proj-modal')">✕</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group"><label class="form-label">Project Name</label><input class="form-input"
-                            placeholder="e.g. Website Redesign"></div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Client</label><select
-                                class="form-input form-select">
-                                <option>Acme Corporation</option>
-                                <option>GreenGrow Ltd</option>
-                                <option>TechStart Inc.</option>
-                                <option>NovaTech Ventures</option>
-                            </select></div>
-                        <div class="form-group"><label class="form-label">Budget ($)</label><input class="form-input"
-                                type="number" placeholder="0"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Start Date</label><input class="form-input"
-                                type="date"></div>
-                        <div class="form-group"><label class="form-label">Due Date</label><input class="form-input"
-                                type="date"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Status</label><select
-                                class="form-input form-select">
-                                <option>Backlog</option>
-                                <option>In Progress</option>
-                                <option>In Review</option>
-                                <option>Done</option>
-                            </select></div>
-                        <div class="form-group"><label class="form-label">Priority</label><select
-                                class="form-input form-select">
-                                <option>High</option>
-                                <option>Medium</option>
-                                <option>Low</option>
-                            </select></div>
-                    </div>
-                </div>
-                <div class="modal-footer"><button class="btn btn-ghost"
-                        onclick="closeModal('proj-modal')">Cancel</button><button class="btn btn-primary"
-                        onclick="addProject()">Create Project</button></div>
-            </div>
-        </div>
-        <div class="modal-bg" id="emp-modal" onclick="closeModals(event)">
-            <div class="modal" onclick="event.stopPropagation()">
-                <div class="modal-head">
-                    <div class="modal-title">Add Employee</div><button class="close-btn"
-                        onclick="closeModal('emp-modal')">✕</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Full Name</label><input class="form-input"
-                                placeholder="First & last name"></div>
-                        <div class="form-group"><label class="form-label">Email</label><input class="form-input"
-                                type="email" placeholder="work@company.com"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Department</label><select
-                                class="form-input form-select">
-                                <option>Engineering</option>
-                                <option>Sales</option>
-                                <option>Marketing</option>
-                                <option>Operations</option>
-                                <option>Finance</option>
-                                <option>Design</option>
-                                <option>HR & Admin</option>
-                            </select></div>
-                        <div class="form-group"><label class="form-label">Role</label><input class="form-input"
-                                placeholder="e.g. Senior Developer"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Type</label><select
-                                class="form-input form-select">
-                                <option>Full-time</option>
-                                <option>Part-time</option>
-                                <option>Contractor</option>
-                            </select></div>
-                        <div class="form-group"><label class="form-label">Start Date</label><input class="form-input"
-                                type="date"></div>
-                    </div>
-                </div>
-                <div class="modal-footer"><button class="btn btn-ghost"
-                        onclick="closeModal('emp-modal')">Cancel</button><button class="btn btn-primary"
-                        onclick="addEmployee()">Add Employee</button></div>
-            </div>
-        </div>
-        <div class="modal-bg" id="collab-modal" onclick="closeModals(event)">
-            <div class="modal" onclick="event.stopPropagation()">
-                <div class="modal-head">
-                    <div class="modal-title">New Partnership</div><button class="close-btn"
-                        onclick="closeModal('collab-modal')">✕</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Company Name</label><input class="form-input"
-                                placeholder="Partner company"></div>
-                        <div class="form-group"><label class="form-label">Type</label><select
-                                class="form-input form-select">
-                                <option>Technology</option>
-                                <option>Sales Channel</option>
-                                <option>Marketing</option>
-                                <option>Supply Chain</option>
-                                <option>Finance</option>
-                                <option>Other</option>
-                            </select></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Contact Person</label><input
-                                class="form-input" placeholder="Primary contact"></div>
-                        <div class="form-group"><label class="form-label">Contract Value ($/yr)</label><input
-                                class="form-input" type="number" placeholder="0"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label class="form-label">Start Date</label><input class="form-input"
-                                type="date"></div>
-                        <div class="form-group"><label class="form-label">Status</label><select
-                                class="form-input form-select">
-                                <option>Prospect</option>
-                                <option>Negotiating</option>
-                                <option>Active</option>
-                            </select></div>
-                    </div>
-                    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input"
-                            rows="2" placeholder="Partnership scope and goals…" style="resize:none"></textarea></div>
-                </div>
-                <div class="modal-footer"><button class="btn btn-ghost"
-                        onclick="closeModal('collab-modal')">Cancel</button><button class="btn btn-primary"
-                        onclick="addCollab()">Add Partnership</button></div>
-            </div>
-        </div> <!-- TOAST -->
-        <div class="toast" id="toast"></div>
-        <script src="script.js"></script>
-        </body>
+        * {
+            box-sizing: border-box;
+        }
 
-    </html>
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text-hi);
+            font-family: 'IBM Plex Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .rail {
+            width: 196px;
+            flex-shrink: 0;
+            background: var(--panel);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+
+        .brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.03em;
+            padding: 0 20px 20px;
+            color: var(--text-hi);
+        }
+
+        .brand span {
+            color: var(--amber);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 20px;
+            cursor: pointer;
+            color: var(--text-mu);
+            font-size: 13.5px;
+            font-weight: 500;
+            border-left: 2px solid transparent;
+            transition: all .15s;
+        }
+
+        .nav-item:hover {
+            color: var(--text-hi);
+            background: var(--panel-2);
+        }
+
+        .nav-item.active {
+            color: var(--text-hi);
+            border-left-color: var(--amber);
+            background: var(--panel-2);
+        }
+
+        .nav-icon {
+            width: 16px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .nav-dot {
+            margin-left: auto;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        .nav-dot.on {
+            background: var(--teal);
+        }
+
+        .nav-dot.warn {
+            background: var(--coral);
+        }
+
+        .rail-foot {
+            margin-top: auto;
+            padding: 14px 20px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .import-btn {
+            width: 100%;
+            background: var(--amber);
+            color: #1a1200;
+            border: none;
+            border-radius: 6px;
+            padding: 9px 0;
+            font-weight: 600;
+            font-size: 12.5px;
+            cursor: pointer;
+            font-family: 'IBM Plex Sans', sans-serif;
+            letter-spacing: .02em;
+        }
+
+        .import-btn:hover {
+            filter: brightness(1.08);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* Main */
+        .main {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Pulse strip */
+        .pulse {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            padding: 10px 28px;
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: var(--text-mu);
+            overflow-x: auto;
+        }
+
+        .pulse b {
+            color: var(--text-hi);
+            font-weight: 600;
+        }
+
+        .pulse-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .led {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        .led.on {
+            background: var(--teal);
+            box-shadow: 0 0 6px var(--teal);
+        }
+
+        .led.warn {
+            background: var(--coral);
+            box-shadow: 0 0 6px var(--coral);
+        }
+
+        .content {
+            padding: 26px 28px 60px;
+            overflow-y: auto;
+        }
+
+        .content-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .subtle {
+            color: var(--text-mu);
+            font-size: 12.5px;
+            margin-top: 3px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            color: var(--text-hi);
+            border-radius: 6px;
+            padding: 8px 13px;
+            font-size: 12.5px;
+            cursor: pointer;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            border-color: var(--amber);
+        }
+
+        .btn.primary {
+            background: var(--teal);
+            color: #04211c;
+            border-color: var(--teal);
+            font-weight: 600;
+        }
+
+        .btn.primary:hover {
+            filter: brightness(1.06);
+        }
+
+        /* KPI grid */
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .kpi {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+        }
+
+        .kpi .lbl {
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--text-mu);
+            font-weight: 600;
+        }
+
+        .kpi .val {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 6px;
+            color: var(--text-hi);
+        }
+
+        .kpi .val.accent {
+            color: var(--amber);
+        }
+
+        .kpi .val.warn {
+            color: var(--coral);
+        }
+
+        /* Charts */
+        .charts {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        @media(max-width:900px) {
+            .charts {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .chart-card .chead {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .chart-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            margin: 0;
+            font-weight: 600;
+            color: var(--text-hi);
+        }
+
+        .png-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-mu);
+            border-radius: 5px;
+            padding: 4px 9px;
+            font-size: 10.5px;
+            cursor: pointer;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .png-btn:hover {
+            color: var(--text-hi);
+            border-color: var(--teal);
+        }
+
+        .chart-wrap {
+            height: 230px;
+            position: relative;
+        }
+
+        .empty-chart {
+            height: 230px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-mu);
+            font-size: 12px;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        /* Table */
+        .table-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search {
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 7px 11px;
+            color: var(--text-hi);
+            font-size: 12.5px;
+            font-family: 'IBM Plex Sans';
+            width: 220px;
+        }
+
+        .search::placeholder {
+            color: var(--text-mu);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 9px 14px;
+            color: var(--text-mu);
+            font-weight: 600;
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            white-space: nowrap;
+            background: var(--panel-2);
+        }
+
+        thead th:hover {
+            color: var(--text-hi);
+        }
+
+        tbody td {
+            padding: 8px 14px;
+            border-bottom: 1px solid var(--border);
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--text-hi);
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: var(--panel-2);
+        }
+
+        tbody tr.low td {
+            color: var(--coral);
+        }
+
+        .del {
+            cursor: pointer;
+            color: var(--text-mu);
+            font-family: 'IBM Plex Sans';
+        }
+
+        .del:hover {
+            color: var(--coral);
+        }
+
+        .more-note {
+            padding: 9px 16px;
+            color: var(--text-mu);
+            font-size: 11.5px;
+        }
+
+        /* Add form */
+        .add-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 14px;
+            display: none;
+        }
+
+        .add-panel.open {
+            display: block;
+        }
+
+        .add-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .add-grid label {
+            display: block;
+            font-size: 10.5px;
+            text-transform: uppercase;
+            color: var(--text-mu);
+            margin-bottom: 5px;
+            letter-spacing: .04em;
+        }
+
+        .add-grid input {
+            width: 100%;
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 10px;
+            color: var(--text-hi);
+            font-size: 12.5px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .empty-state {
+            background: var(--panel);
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            padding: 50px 20px;
+            text-align: center;
+            color: var(--text-mu);
+            font-size: 13px;
+        }
+
+        .empty-state b {
+            color: var(--text-hi);
+        }
+
+        /* Modal */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 7, 10, .7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+
+        .overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 460px;
+            max-width: 92vw;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 22px;
+        }
+
+        .modal h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            margin: 0 0 4px;
+        }
+
+        .modal .subtle {
+            margin-bottom: 16px;
+        }
+
+        .sheet-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sheet-row .sname {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12.5px;
+        }
+
+        .sheet-row select {
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            color: var(--text-hi);
+            border-radius: 6px;
+            padding: 6px 8px;
+            font-size: 12px;
+            font-family: 'IBM Plex Sans';
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--panel-2);
+            border: 1px solid var(--teal);
+            color: var(--text-hi);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            z-index: 60;
+            display: none;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="rail">
+            <div class="brand">OPERON</div>
+            <div class="nav-item active" data-mod="overview"><span class="nav-icon">◎</span>Overview</div>
+            <div class="nav-item" data-mod="sales"><span class="nav-icon">◈</span>Sales<span class="nav-dot"
+                    id="dot-sales"></span></div>
+            <div class="nav-item" data-mod="inventory"><span class="nav-icon">▣</span>Inventory<span class="nav-dot"
+                    id="dot-inventory"></span></div>
+            <div class="nav-item" data-mod="finance"><span class="nav-icon">◆</span>Finance<span class="nav-dot"
+                    id="dot-finance"></span></div>
+            <div class="nav-item" data-mod="hr"><span class="nav-icon">◉</span>HR<span class="nav-dot"
+                    id="dot-hr"></span></div>
+            <div class="rail-foot">
+                <button class="import-btn" id="importTrigger">↑ Import Excel</button>
+                <input type="file" id="fileInput" accept=".xlsx,.xls">
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="pulse" id="pulseStrip"></div>
+            <div class="content" id="content"></div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <h2>Assign sheets to modules</h2>
+            <div class="subtle">Each sheet in your workbook can be mapped to a module. We've guessed based on sheet
+                names — adjust as needed.</div>
+            <div id="sheetList"></div>
+            <div class="modal-actions">
+                <button class="btn" id="cancelImport">Cancel</button>
+                <button class="btn primary" id="confirmImport">Import</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        (function () {
+            const MODULES = {
+                sales: { label: 'Sales', accent: '--amber', keywords: ['sale', 'order', 'revenue'], numericPref: ['revenue', 'amount', 'total', 'sales', 'price'], categoryPref: ['product', 'item', 'customer', 'category'], defaultCols: ['Date', 'Product', 'Customer', 'Quantity', 'Revenue'] },
+                inventory: { label: 'Inventory', accent: '--sky', keywords: ['inventory', 'stock', 'warehouse'], numericPref: ['stock', 'quantity', 'qty', 'units'], categoryPref: ['item', 'product', 'sku', 'category'], defaultCols: ['SKU', 'Item', 'Category', 'Stock', 'ReorderLevel'] },
+                finance: { label: 'Finance', accent: '--teal', keywords: ['financ', 'expense', 'budget', 'cash'], numericPref: ['amount', 'total', 'value'], categoryPref: ['category', 'type'], defaultCols: ['Date', 'Category', 'Type', 'Amount'] },
+                hr: { label: 'HR', accent: '--violet', keywords: ['hr', 'employee', 'staff', 'personnel'], numericPref: ['salary', 'pay', 'wage'], categoryPref: ['department', 'role', 'name'], defaultCols: ['Name', 'Department', 'Role', 'Salary', 'HireDate'] }
+            };
+
+            let state = { sales: [], inventory: [], finance: [], hr: [] };
+            let currentModule = 'overview';
+            let chartInstances = {};
+            let searchTerms = { sales: '', inventory: '', finance: '', hr: '' };
+            let sortState = {};
+            let pendingWorkbook = null;
+
+            const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+            const $ = (sel, ctx) => (ctx || document).querySelector(sel);
+            const $$ = (sel, ctx) => [...(ctx || document).querySelectorAll(sel)];
+
+            function toast(msg) {
+                const t = $('#toast'); t.textContent = msg; t.style.display = 'block';
+                clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', 2600);
+            }
+
+            /* ---------- storage ---------- */
+            async function loadAll() {
+                for (const key of Object.keys(MODULES)) {
+                    try {
+                        const r = await window.storage.get('data:' + key, false);
+                        if (r && r.value) state[key] = JSON.parse(r.value);
+                    } catch (e) { state[key] = []; }
+                }
+            }
+            async function saveModule(key) {
+                try { await window.storage.set('data:' + key, JSON.stringify(state[key]), false); }
+                catch (e) { console.error('storage save failed', e); }
+            }
+
+            /* ---------- data helpers ---------- */
+            function detectColumns(rows) {
+                const out = { numeric: [], date: [], text: [] };
+                if (!rows.length) return out;
+                const cols = Object.keys(rows[0]);
+                cols.forEach(col => {
+                    let numCount = 0, dateCount = 0, total = 0;
+                    rows.forEach(r => {
+                        const v = r[col];
+                        if (v === undefined || v === null || v === '') return;
+                        total++;
+                        const f = parseFloat(v);
+                        if (!isNaN(f) && isFinite(f) && String(v).trim() !== '' && !/[a-zA-Z]{2,}/.test(String(v))) numCount++;
+                        else if (!isNaN(Date.parse(v))) dateCount++;
+                    });
+                    if (total === 0) { out.text.push(col); return; }
+                    if (numCount / total > 0.7) out.numeric.push(col);
+                    else if (dateCount / total > 0.6 || /date|hired?/i.test(col)) out.date.push(col);
+                    else out.text.push(col);
+                });
+                return out;
+            }
+            function pickPreferred(list, prefs) {
+                for (const p of prefs) { const f = list.find(c => c.toLowerCase().includes(p)); if (f) return f; }
+                return list[0];
+            }
+            function num(v) { const f = parseFloat(v); return isNaN(f) ? 0 : f; }
+            function fmt(n) { return n.toLocaleString(undefined, { maximumFractionDigits: 2 }); }
+
+            function groupSum(rows, catCol, numCol, limit) {
+                limit = limit || 8;
+                const map = {};
+                rows.forEach(r => {
+                    const k = (catCol ? (r[catCol] ?? '—') : 'All') + '';
+                    map[k] = (map[k] || 0) + num(r[numCol]);
+                });
+                let entries = Object.entries(map).sort((a, b) => b[1] - a[1]);
+                if (entries.length > limit) {
+                    const head = entries.slice(0, limit - 1);
+                    const restSum = entries.slice(limit - 1).reduce((s, e) => s + e[1], 0);
+                    entries = [...head, ['Other', restSum]];
+                }
+                return entries;
+            }
+            function monthTrend(rows, dateCol, numCol) {
+                const map = {};
+                rows.forEach(r => {
+                    const d = new Date(r[dateCol]);
+                    if (isNaN(d)) return;
+                    const k = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+                    map[k] = (map[k] || 0) + num(r[numCol]);
+                });
+                return Object.entries(map).sort((a, b) => a[0] < b[0] ? -1 : 1);
+            }
+
+            /* ---------- pulse strip ---------- */
+            function renderPulse() {
+                const p = $('#pulseStrip');
+                const total = Object.values(state).reduce((s, a) => s + a.length, 0);
+                let low = 0;
+                const invRows = state.inventory;
+                if (invRows.length) {
+                    const cols = detectColumns(invRows);
+                    const stockCol = pickPreferred(cols.numeric, MODULES.inventory.numericPref);
+                    const reorderCol = Object.keys(invRows[0]).find(c => /reorder|min/i.test(c));
+                    if (stockCol && reorderCol) low = invRows.filter(r => num(r[stockCol]) < num(r[reorderCol])).length;
+                }
+                p.innerHTML = `
+      <div class="pulse-item"><span class="led ${total ? 'on' : ''}"></span>RECORDS <b>${total}</b></div>
+      ${Object.keys(MODULES).map(k => `<div class="pulse-item"><span class="led ${state[k].length ? 'on' : ''}"></span>${MODULES[k].label.toUpperCase()} <b>${state[k].length}</b></div>`).join('')}
+      ${low > 0 ? `<div class="pulse-item"><span class="led warn"></span><b style="color:var(--coral)">${low} LOW STOCK</b></div>` : ''}
+      <div class="pulse-item" style="margin-left:auto">LAST SYNC <b id="clock"></b></div>
+    `;
+                $('#clock').textContent = new Date().toLocaleTimeString();
+                Object.keys(MODULES).forEach(k => {
+                    const dot = $('#dot-' + k);
+                    dot.className = 'nav-dot' + (state[k].length ? ' on' : '');
+                });
+            }
+
+            /* ---------- charts ---------- */
+            function destroyChart(id) { if (chartInstances[id]) { chartInstances[id].destroy(); delete chartInstances[id]; } }
+            function makeBar(id, labels, data, color) {
+                destroyChart(id);
+                const ctx = document.getElementById(id);
+                chartInstances[id] = new Chart(ctx, {
+                    type: 'bar',
+                    data: { labels, datasets: [{ data, backgroundColor: color, borderRadius: 4, maxBarThickness: 34 }] },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { ticks: { color: css('--text-mu'), font: { family: 'IBM Plex Mono', size: 10 } }, grid: { color: css('--border') } },
+                            y: { ticks: { color: css('--text-mu'), font: { family: 'IBM Plex Mono', size: 10 } }, grid: { color: css('--border') } }
+                        }
+                    }
+                });
+            }
+            function makeLine(id, labels, data, color) {
+                destroyChart(id);
+                const ctx = document.getElementById(id);
+                chartInstances[id] = new Chart(ctx, {
+                    type: 'line',
+                    data: { labels, datasets: [{ data, borderColor: color, backgroundColor: color + '33', fill: true, tension: .35, pointRadius: 3, pointBackgroundColor: color }] },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { ticks: { color: css('--text-mu'), font: { family: 'IBM Plex Mono', size: 10 } }, grid: { color: css('--border') } },
+                            y: { ticks: { color: css('--text-mu'), font: { family: 'IBM Plex Mono', size: 10 } }, grid: { color: css('--border') } }
+                        }
+                    }
+                });
+            }
+            function makeDoughnut(id, labels, data, palette) {
+                destroyChart(id);
+                const ctx = document.getElementById(id);
+                chartInstances[id] = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: { labels, datasets: [{ data, backgroundColor: palette, borderColor: css('--panel'), borderWidth: 2 }] },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'right', labels: { color: css('--text-mu'), font: { family: 'IBM Plex Sans', size: 10.5 }, boxWidth: 10, padding: 10 } } }
+                    }
+                });
+            }
+            function downloadChartPng(id, filename) {
+                const inst = chartInstances[id];
+                if (!inst) { toast('Nothing to export yet'); return; }
+                const a = document.createElement('a');
+                a.href = inst.toBase64Image();
+                a.download = filename + '.png';
+                a.click();
+            }
+
+            /* ---------- rendering: module view ---------- */
+            function renderModule(key) {
+                const cfg = MODULES[key];
+                const rows = state[key];
+                const cols = detectColumns(rows);
+                const numCol = pickPreferred(cols.numeric, cfg.numericPref);
+                const catCol = pickPreferred(cols.text, cfg.categoryPref);
+                const dateCol = cols.date[0];
+                const accentColor = css(cfg.accent);
+
+                const content = $('#content');
+
+                if (!rows.length) {
+                    content.innerHTML = `
+        <div class="content-head">
+          <div><h1>${cfg.label}</h1><div class="subtle">No data yet for this module.</div></div>
+          <div class="actions">
+            <button class="btn primary" id="toggleAdd">+ Add record</button>
+          </div>
+        </div>
+        <div class="empty-state">No <b>${cfg.label}</b> records. Import an Excel sheet and assign it to this module, or add a record manually below.</div>
+        <div class="add-panel open" id="addPanel">${addFormHtml(key, cfg.defaultCols)}</div>
+      `;
+                    wireAddForm(key);
+                    return;
+                }
+
+                // KPIs
+                let kpis = [];
+                kpis.push({ lbl: 'Records', val: rows.length });
+                if (numCol) kpis.push({ lbl: 'Total ' + numCol, val: fmt(rows.reduce((s, r) => s + num(r[numCol]), 0)), accent: true });
+                if (numCol) kpis.push({ lbl: 'Average ' + numCol, val: fmt(rows.reduce((s, r) => s + num(r[numCol]), 0) / rows.length) });
+                if (catCol) { const top = groupSum(rows, catCol, numCol || catCol, 1)[0]; if (top) kpis.push({ lbl: 'Top ' + catCol, val: top[0] }); }
+
+                if (key === 'finance') {
+                    const typeCol = Object.keys(rows[0]).find(c => {
+                        const vals = rows.map(r => String(r[c]).toLowerCase());
+                        return vals.some(v => v.includes('income')) && vals.some(v => v.includes('expense'));
+                    });
+                    if (typeCol && numCol) {
+                        const income = rows.filter(r => String(r[typeCol]).toLowerCase().includes('income')).reduce((s, r) => s + num(r[numCol]), 0);
+                        const expense = rows.filter(r => String(r[typeCol]).toLowerCase().includes('expense')).reduce((s, r) => s + num(r[numCol]), 0);
+                        kpis = [{ lbl: 'Records', val: rows.length }, { lbl: 'Income', val: fmt(income), accent: true }, { lbl: 'Expenses', val: fmt(expense) }, { lbl: 'Net', val: fmt(income - expense), warn: (income - expense) < 0 }];
+                    }
+                }
+                if (key === 'inventory') {
+                    const reorderCol = Object.keys(rows[0]).find(c => /reorder|min/i.test(c));
+                    if (numCol && reorderCol) {
+                        const low = rows.filter(r => num(r[numCol]) < num(r[reorderCol])).length;
+                        kpis.push({ lbl: 'Low stock items', val: low, warn: low > 0 });
+                    }
+                }
+
+                content.innerHTML = `
+      <div class="content-head">
+        <div><h1>${cfg.label}</h1><div class="subtle">${rows.length} records${dateCol ? ' · trend by ' + dateCol : ''}</div></div>
+        <div class="actions">
+          <button class="btn" id="toggleAdd">+ Add record</button>
+        </div>
+      </div>
+      <div class="kpis">${kpis.map(k => `<div class="kpi"><div class="lbl">${k.lbl}</div><div class="val ${k.accent ? 'accent' : ''} ${k.warn ? 'warn' : ''}">${k.val}</div></div>`).join('')}</div>
+
+      <div class="charts">
+        <div class="chart-card">
+          <div class="chead"><h3>${catCol && numCol ? `${numCol} by ${catCol}` : 'Breakdown'}</h3><button class="png-btn" data-chart="c1_${key}">↓ PNG</button></div>
+          ${catCol && numCol ? `<div class="chart-wrap"><canvas id="c1_${key}"></canvas></div>` : `<div class="empty-chart">Not enough categorical/numeric data to chart.</div>`}
+        </div>
+        <div class="chart-card">
+          <div class="chead"><h3>${dateCol && numCol ? 'Trend over time' : 'Composition'}</h3><button class="png-btn" data-chart="c2_${key}">↓ PNG</button></div>
+          <div class="chart-wrap"><canvas id="c2_${key}"></canvas></div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-tools">
+          <input class="search" placeholder="Search ${cfg.label.toLowerCase()}..." id="searchBox" value="${searchTerms[key]}">
+          <button class="btn" id="exportModuleCsv">↓ Export sheet</button>
+        </div>
+        <div id="tableHost"></div>
+      </div>
+
+      <div class="add-panel" id="addPanel">${addFormHtml(key, Object.keys(rows[0]))}</div>
+    `;
+
+                if (catCol && numCol) makeBar('c1_' + key, ...(() => { const g = groupSum(rows, catCol, numCol); return [g.map(e => e[0]), g.map(e => e[1]), accentColor]; })());
+                if (dateCol && numCol) {
+                    const t = monthTrend(rows, dateCol, numCol);
+                    makeLine('c2_' + key, t.map(e => e[0]), t.map(e => e[1]), accentColor);
+                } else if (catCol && numCol) {
+                    const g = groupSum(rows, catCol, numCol, 5);
+                    makeDoughnut('c2_' + key, g.map(e => e[0]), g.map(e => e[1]), [accentColor, css('--teal'), css('--sky'), css('--violet'), css('--coral')]);
+                }
+
+                renderTable(key, rows, catCol, numCol);
+
+                $('#searchBox').addEventListener('input', e => { searchTerms[key] = e.target.value; renderTable(key, state[key], catCol, numCol); });
+                $('#toggleAdd').addEventListener('click', () => $('#addPanel').classList.toggle('open'));
+                $('#exportModuleCsv').addEventListener('click', () => exportModule(key));
+                $$('.png-btn').forEach(b => b.addEventListener('click', () => downloadChartPng(b.dataset.chart, key + '_chart')));
+                wireAddForm(key);
+            }
+
+            function renderTable(key, rows, catCol, numCol) {
+                const host = $('#tableHost');
+                if (!host) return;
+                const term = (searchTerms[key] || '').toLowerCase();
+                let filtered = rows.filter((r, i) => { r.__i = i; return !term || Object.values(r).some(v => String(v).toLowerCase().includes(term)); });
+
+                const sort = sortState[key];
+                if (sort) {
+                    filtered = [...filtered].sort((a, b) => {
+                        const av = a[sort.col], bv = b[sort.col];
+                        const an = parseFloat(av), bn = parseFloat(bv);
+                        let cmp;
+                        if (!isNaN(an) && !isNaN(bn)) cmp = an - bn; else cmp = String(av).localeCompare(String(bv));
+                        return sort.dir === 'asc' ? cmp : -cmp;
+                    });
+                }
+
+                const cols = Object.keys(rows[0]).filter(c => c !== '__i');
+                const shown = filtered.slice(0, 200);
+                const reorderCol = key === 'inventory' ? Object.keys(rows[0]).find(c => /reorder|min/i.test(c)) : null;
+
+                host.innerHTML = `
+      <table>
+        <thead><tr>${cols.map(c => `<th data-col="${c}">${c}${sort && sort.col === c ? (sort.dir === 'asc' ? ' ▲' : ' ▼') : ''}</th>`).join('')}<th></th></tr></thead>
+        <tbody>
+          ${shown.map(r => {
+                    const isLow = reorderCol && numCol && num(r[numCol]) < num(r[reorderCol]);
+                    return `<tr class="${isLow ? 'low' : ''}" data-i="${r.__i}">${cols.map(c => `<td>${r[c] ?? ''}</td>`).join('')}<td class="del" data-del="${r.__i}">✕</td></tr>`;
+                }).join('')}
+        </tbody>
+      </table>
+      ${filtered.length > 200 ? `<div class="more-note">Showing 200 of ${filtered.length} matching rows.</div>` : ''}
+    `;
+                $$('thead th[data-col]', host).forEach(th => {
+                    th.addEventListener('click', () => {
+                        const col = th.dataset.col;
+                        const cur = sortState[key];
+                        sortState[key] = { col, dir: (cur && cur.col === col && cur.dir === 'asc') ? 'desc' : 'asc' };
+                        renderTable(key, state[key], catCol, numCol);
+                    });
+                });
+                $$('[data-del]', host).forEach(el => {
+                    el.addEventListener('click', async () => {
+                        const idx = parseInt(el.dataset.del);
+                        state[key].splice(idx, 1);
+                        await saveModule(key);
+                        renderPulse();
+                        renderModule(key);
+                    });
+                });
+            }
+
+            function addFormHtml(key, columns) {
+                return `
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:13px;margin:0 0 12px;">Add ${MODULES[key].label} record</h3>
+      <div class="add-grid">${columns.map(c => `<div><label>${c}</label><input data-field="${c}" placeholder="${c}"></div>`).join('')}</div>
+      <button class="btn primary" id="submitAdd">Add record</button>
+    `;
+            }
+            function wireAddForm(key) {
+                const btn = $('#submitAdd');
+                if (!btn) return;
+                btn.addEventListener('click', async () => {
+                    const panel = $('#addPanel');
+                    const fields = $$('[data-field]', panel);
+                    const row = {};
+                    let hasValue = false;
+                    fields.forEach(f => { row[f.dataset.field] = f.value; if (f.value) hasValue = true; });
+                    if (!hasValue) { toast('Enter at least one value'); return; }
+                    state[key].push(row);
+                    await saveModule(key);
+                    fields.forEach(f => f.value = '');
+                    renderPulse();
+                    renderModule(key);
+                    toast('Record added');
+                });
+            }
+
+            /* ---------- overview ---------- */
+            function renderOverview() {
+                const content = $('#content');
+                const total = Object.values(state).reduce((s, a) => s + a.length, 0);
+
+                function metric(key, prefs) {
+                    const rows = state[key];
+                    if (!rows.length) return null;
+                    const cols = detectColumns(rows);
+                    const c = pickPreferred(cols.numeric, prefs);
+                    if (!c) return null;
+                    return rows.reduce((s, r) => s + num(r[c]), 0);
+                }
+                const salesTotal = metric('sales', MODULES.sales.numericPref);
+                const financeTotal = metric('finance', MODULES.finance.numericPref);
+                const hrCount = state.hr.length;
+                const invRows = state.inventory;
+                let lowStock = 0;
+                if (invRows.length) {
+                    const cols = detectColumns(invRows);
+                    const stockCol = pickPreferred(cols.numeric, MODULES.inventory.numericPref);
+                    const reorderCol = Object.keys(invRows[0]).find(c => /reorder|min/i.test(c));
+                    if (stockCol && reorderCol) lowStock = invRows.filter(r => num(r[stockCol]) < num(r[reorderCol])).length;
+                }
+
+                content.innerHTML = `
+      <div class="content-head">
+        <div><h1>Overview</h1><div class="subtle">Snapshot across all modules · ${total} total records</div></div>
+        <div class="actions">
+          <button class="btn primary" id="exportReport">↓ Download Excel report</button>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="lbl">Total records</div><div class="val">${total}</div></div>
+        <div class="kpi"><div class="lbl">Sales total</div><div class="val accent">${salesTotal != null ? fmt(salesTotal) : '—'}</div></div>
+        <div class="kpi"><div class="lbl">Finance total</div><div class="val">${financeTotal != null ? fmt(financeTotal) : '—'}</div></div>
+        <div class="kpi"><div class="lbl">Headcount</div><div class="val">${hrCount || '—'}</div></div>
+        <div class="kpi"><div class="lbl">Low stock items</div><div class="val ${lowStock > 0 ? 'warn' : ''}">${lowStock}</div></div>
+      </div>
+      <div class="charts">
+        <div class="chart-card">
+          <div class="chead"><h3>Records by module</h3><button class="png-btn" data-chart="ov1">↓ PNG</button></div>
+          <div class="chart-wrap"><canvas id="ov1"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chead"><h3>Module composition</h3><button class="png-btn" data-chart="ov2">↓ PNG</button></div>
+          ${total ? `<div class="chart-wrap"><canvas id="ov2"></canvas></div>` : `<div class="empty-chart">Import or add data to see this chart.</div>`}
+        </div>
+      </div>
+      ${total === 0 ? `<div class="empty-state">Nothing here yet. Click <b>↑ Import Excel</b> to load a workbook, or open a module from the left to add records manually.</div>` : ''}
+    `;
+                makeBar('ov1', Object.keys(MODULES).map(k => MODULES[k].label), Object.keys(MODULES).map(k => state[k].length), [css('--amber'), css('--sky'), css('--teal'), css('--violet')]);
+                if (total) makeDoughnut('ov2', Object.keys(MODULES).map(k => MODULES[k].label), Object.keys(MODULES).map(k => state[k].length), [css('--amber'), css('--sky'), css('--teal'), css('--violet')]);
+                $('#exportReport').addEventListener('click', exportExcelReport);
+                $$('.png-btn').forEach(b => b.addEventListener('click', () => downloadChartPng(b.dataset.chart, 'overview_' + b.dataset.chart)));
+            }
+
+            /* ---------- export ---------- */
+            function exportExcelReport() {
+                const wb = XLSX.utils.book_new();
+                const summaryRows = [];
+                Object.keys(MODULES).forEach(key => {
+                    const rows = state[key];
+                    if (rows.length) {
+                        const clean = rows.map(r => { const c = { ...r }; delete c.__i; return c; });
+                        const ws = XLSX.utils.json_to_sheet(clean);
+                        XLSX.utils.book_append_sheet(wb, ws, MODULES[key].label.substring(0, 31));
+                    }
+                    const cols = detectColumns(rows);
+                    const numCol = pickPreferred(cols.numeric, MODULES[key].numericPref);
+                    const total = numCol ? rows.reduce((s, r) => s + num(r[numCol]), 0) : '';
+                    summaryRows.push({ Module: MODULES[key].label, Records: rows.length, 'Primary Metric': numCol || '—', Total: total === '' ? '—' : fmt(total) });
+                });
+                const sWs = XLSX.utils.json_to_sheet(summaryRows);
+                XLSX.utils.book_append_sheet(wb, sWs, 'Summary');
+                XLSX.writeFile(wb, `company_report_${new Date().toISOString().slice(0, 10)}.xlsx`);
+                toast('Report downloaded');
+            }
+            function exportModule(key) {
+                const rows = state[key].map(r => { const c = { ...r }; delete c.__i; return c; });
+                if (!rows.length) { toast('No data to export'); return; }
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.json_to_sheet(rows);
+                XLSX.utils.book_append_sheet(wb, ws, MODULES[key].label.substring(0, 31));
+                XLSX.writeFile(wb, `${key}_${new Date().toISOString().slice(0, 10)}.xlsx`);
+            }
+
+            /* ---------- import ---------- */
+            function guessModule(sheetName) {
+                const n = sheetName.toLowerCase();
+                for (const key of Object.keys(MODULES)) {
+                    if (MODULES[key].keywords.some(kw => n.includes(kw))) return key;
+                }
+                return 'skip';
+            }
+            function openImportModal(wb) {
+                pendingWorkbook = wb;
+                const list = $('#sheetList');
+                list.innerHTML = wb.SheetNames.map(name => `
+      <div class="sheet-row">
+        <div class="sname">${name}</div>
+        <select data-sheet="${name}">
+          <option value="skip">Skip</option>
+          ${Object.keys(MODULES).map(k => `<option value="${k}" ${guessModule(name) === k ? 'selected' : ''}>${MODULES[k].label}</option>`).join('')}
+        </select>
+      </div>`).join('');
+                $('#overlay').classList.add('open');
+            }
+            function closeImportModal() { $('#overlay').classList.remove('open'); pendingWorkbook = null; }
+
+            async function confirmImport() {
+                if (!pendingWorkbook) return;
+                const selects = $$('#sheetList select');
+                let importedAny = false;
+                for (const sel of selects) {
+                    const target = sel.value;
+                    if (target === 'skip') continue;
+                    const sheetName = sel.dataset.sheet;
+                    const ws = pendingWorkbook.Sheets[sheetName];
+                    let rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
+                    rows = rows.map(r => {
+                        const clean = {};
+                        Object.keys(r).forEach(k => {
+                            let v = r[k];
+                            if (v instanceof Date) v = v.toISOString().slice(0, 10);
+                            clean[k.trim()] = v;
+                        });
+                        return clean;
+                    });
+                    state[target] = rows;
+                    await saveModule(target);
+                    importedAny = true;
+                }
+                closeImportModal();
+                if (importedAny) {
+                    renderPulse();
+                    renderCurrent();
+                    toast('Import complete');
+                } else {
+                    toast('No sheets were assigned');
+                }
+            }
+
+            /* ---------- routing ---------- */
+            function renderCurrent() {
+                if (currentModule === 'overview') renderOverview();
+                else renderModule(currentModule);
+            }
+
+            $$('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    $$('.nav-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    currentModule = item.dataset.mod;
+                    renderCurrent();
+                });
+            });
+
+            $('#importTrigger').addEventListener('click', () => $('#fileInput').click());
+            $('#fileInput').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const data = new Uint8Array(ev.target.result);
+                    const wb = XLSX.read(data, { type: 'array', cellDates: true });
+                    openImportModal(wb);
+                };
+                reader.readAsArrayBuffer(file);
+                e.target.value = '';
+            });
+            $('#cancelImport').addEventListener('click', closeImportModal);
+            $('#confirmImport').addEventListener('click', confirmImport);
+
+            /* ---------- init ---------- */
+            (async function init() {
+                await loadAll();
+                renderPulse();
+                renderCurrent();
+                setInterval(() => { const c = $('#clock'); if (c) c.textContent = new Date().toLocaleTimeString(); }, 1000);
+            })();
+        })();
+    </script>
+</body>
+
+</html>
